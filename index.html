@@ -34,6 +34,18 @@
             padding: 20px 0;
             text-align: left;
             margin-bottom: 40px;
+            animation: headerFadeIn 1s ease-out;
+        }
+
+        @keyframes headerFadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         @keyframes pulse {
@@ -69,6 +81,12 @@
             page-break-inside: avoid;
             border: 1px solid #000;
             margin: 20px 0;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .section:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
 
         .section-title {
@@ -151,11 +169,13 @@
             font-size: 14px;
             background: white;
             font-family: 'Times New Roman', serif;
+            transition: border-color 0.3s ease, transform 0.3s ease;
         }
 
         .form-input:focus, .form-select:focus, .form-textarea:focus {
             outline: none;
             border-color: #000;
+            transform: translateY(-1px);
         }
 
         .form-textarea {
@@ -168,6 +188,19 @@
             margin: 15px 0;
             border: 1px solid #000;
             page-break-inside: avoid;
+            opacity: 0;
+            animation: slideIn 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
         }
 
         table {
@@ -247,11 +280,32 @@
             gap: 15px;
             padding: 20px 25px;
             background: white;
-            border-radius: 15px;
-            border: 2px solid #f0f4f8;
-            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            border: 1px solid #000;
+            transition: all 0.3s ease;
             cursor: pointer;
+            opacity: 0;
+            animation: checkboxFadeIn 0.5s ease-out forwards;
         }
+
+        @keyframes checkboxFadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .checkbox-item:nth-child(1) { animation-delay: 0.1s; }
+        .checkbox-item:nth-child(2) { animation-delay: 0.2s; }
+        .checkbox-item:nth-child(3) { animation-delay: 0.3s; }
+        .checkbox-item:nth-child(4) { animation-delay: 0.4s; }
+        .checkbox-item:nth-child(5) { animation-delay: 0.5s; }
+        .checkbox-item:nth-child(6) { animation-delay: 0.6s; }
+        .checkbox-item:nth-child(7) { animation-delay: 0.7s; }
+        .checkbox-item:nth-child(8) { animation-delay: 0.8s; }
 
         .checkbox-item:hover {
             border-color: #667eea;
@@ -518,12 +572,15 @@
             body { 
                 background: white; 
                 padding: 20px;
-                font-size: 12pt;
+                font-size: 11pt;
+                color: black;
             }
             .container { 
                 box-shadow: none; 
-                width: 100%;
+                width: 100% !important;
                 max-width: none;
+                margin: 0;
+                padding: 0;
             }
             .print-btn { display: none; }
             .section { 
@@ -531,46 +588,136 @@
                 page-break-inside: avoid;
                 border: 1px solid #000;
                 margin: 15px 0;
+                padding: 15px;
+            }
+            .section-icon, 
+            .emoji,
+            [class^="section-icon"],
+            .btn-primary, 
+            .btn-secondary,
+            .add-section-btn { 
+                display: none !important; 
             }
             .table-container {
                 break-inside: avoid;
                 page-break-inside: avoid;
+                margin: 10px 0;
+                border: none;
+                width: 100% !important;
+                overflow: visible;
             }
             table { 
                 break-inside: avoid;
                 page-break-inside: avoid;
                 width: 100% !important;
+                table-layout: fixed;
+                font-size: 10pt;
             }
             th, td {
                 padding: 6pt;
                 border: 1pt solid #000;
+                word-wrap: break-word;
+                overflow-wrap: break-word;
+                max-width: none;
+                white-space: normal;
             }
-            .btn-primary, .btn-secondary { display: none; }
+            .form-input, 
+            .form-select, 
+            .form-textarea {
+                border: 1px solid #000;
+                padding: 4pt;
+                width: 100%;
+                font-size: 10pt;
+            }
+            input[type="checkbox"] {
+                -webkit-print-color-adjust: exact;
+                color-adjust: exact;
+                print-color-adjust: exact;
+            }
             .header {
                 break-after: avoid;
                 page-break-after: avoid;
+                border-bottom: 2pt solid #000;
+                margin-bottom: 20pt;
             }
             .footer {
                 position: running(footer);
                 break-before: avoid;
                 page-break-before: avoid;
+                border-top: 1pt solid #000;
+                padding-top: 10pt;
+                margin-top: 20pt;
+            }
+            .metrics-grid {
+                display: grid;
+                grid-template-columns: repeat(3, 1fr);
+                gap: 15pt;
+                page-break-inside: avoid;
+            }
+            .metric-card {
+                border: 1pt solid #000;
+                padding: 10pt;
+                text-align: center;
+                page-break-inside: avoid;
+            }
+            /* Remove all animations and transitions */
+            * {
+                animation: none !important;
+                transition: none !important;
+                transform: none !important;
+                box-shadow: none !important;
+            }
+            /* Ensure text contrast */
+            * {
+                color: black !important;
+                background: white !important;
             }
             @page {
                 margin: 0.75in;
                 @bottom-center {
                     content: "Page " counter(page) " of " counter(pages);
+                    font-size: 9pt;
+                    font-family: "Times New Roman", serif;
                 }
+            }
+            /* Force table headers on each page */
+            thead {
+                display: table-header-group;
+            }
+            /* Ensure tables break appropriately */
+            tr, td, th {
+                page-break-inside: avoid;
             }
         }
 
         .fade-in {
-            animation: fadeIn 0.6s cubic-bezier(0.25, 0.8, 0.25, 1);
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeIn 0.8s cubic-bezier(0.4, 0, 0.2, 1) forwards;
         }
 
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(30px); }
-            to { opacity: 1; transform: translateY(0); }
+            from { 
+                opacity: 0; 
+                transform: translateY(20px); 
+            }
+            to { 
+                opacity: 1; 
+                transform: translateY(0); 
+            }
         }
+
+        /* Stagger animation for sections */
+        .section:nth-child(1) { animation-delay: 0.1s; }
+        .section:nth-child(2) { animation-delay: 0.2s; }
+        .section:nth-child(3) { animation-delay: 0.3s; }
+        .section:nth-child(4) { animation-delay: 0.4s; }
+        .section:nth-child(5) { animation-delay: 0.5s; }
+        .section:nth-child(6) { animation-delay: 0.6s; }
+        .section:nth-child(7) { animation-delay: 0.7s; }
+        .section:nth-child(8) { animation-delay: 0.8s; }
+        .section:nth-child(9) { animation-delay: 0.9s; }
+        .section:nth-child(10) { animation-delay: 1s; }
     </style>
 </head>
 <body>
